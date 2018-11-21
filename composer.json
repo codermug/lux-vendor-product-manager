@@ -11,8 +11,10 @@
     "require": {},
     "autoload" : {
         "psr-4": {
-            "Controllers\\": "./controllers",
-            "Inc\\": "./includes"
+            "App\\Controllers\\": "./app/controllers",
+            "App\\Inc\\": "./app/includes",
+            "App\\Models\\": "./app/models",
+            "App\\": "./app"
         }
     }
 }

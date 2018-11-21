@@ -1,0 +1,366 @@
+#app .step-content{
+    margin: 2em;
+}
+#app hr{
+    margin: 2em 0;
+}
+#appCategory .col-box {
+    padding: 2em;
+    background: #cccccc;
+}
+.label-title {
+    color: #d79e61;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+}
+.select2-container .select2-selection--single{
+    border-radius: 0;
+}
+
+.select2-selection__rendered {
+    line-height: 32px !important;
+}
+
+.select2-selection {
+    height: auto !important;
+}
+input[type="radio"] {
+
+}
+input[type="radio"]:checked + label.color span {
+    transform: scale(1.25);
+}
+input[type="radio"]:checked + label.color {
+    border: 2px solid #711313;
+}
+
+label.color {
+    display: inline-block;
+    margin-right: 10px;
+    cursor: pointer;
+    text-transform: capitalize;
+    font-size: .9em;
+}
+label.color:hover span {
+    transform: scale(1.25);
+}
+label.color span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    transition: transform .2s ease-in-out;
+}
+label span.black {
+    background: #000000;
+}
+label span.grey {
+    background: #cccccc;
+}
+label span.gold {
+    background: #cc9b1c;
+}
+label span.white {
+    background: #ffffff;
+    border: #fffedf 1px solid;
+}
+label span.beige {
+    background: #F5F5DC;
+}
+label span.off-white {
+    background: #fffedf;
+}
+label span.brown {
+    background: #786600;
+}
+
+label span.red {
+    background: #DB2828;
+}
+label span.orange {
+    background: #F2711C;
+}
+label span.yellow {
+    background: #FBBD08;
+}
+label span.lime {
+    background: #B5CC18;
+}
+label span.olive {
+    background: #306c16;
+}
+label span.green {
+    background: #21BA45;
+}
+label span.teal {
+    background: #00B5AD;
+}
+label span.blue {
+    background: #2185D0;
+}
+label span.dark-blue {
+    background: #170d91;
+}
+label span.turquoise {
+    background: #2cd0c5;
+}
+label span.violet {
+    background: #6435C9;
+}
+label span.purple {
+    background: #A333C8;
+}
+label span.pink {
+    background: #E03997;
+}
+label span.silver {
+    background: #E4E4E4;
+}
+
+.lux-box{
+    border: #ccc 1px solid;
+    padding: 20px;
+}
+.lux-box-steps h5{
+    font-size: 2rem;
+}
+.lux-photo-title{
+    padding: 20px;
+    text-align: center;
+    color: #666666;
+    margin-bottom: 20px;
+    background: #cc6666;
+}
+.lux-photo-btn{
+    border: #ccc 1px dashed;
+    text-align: center;
+    color: #666666;
+    margin-bottom: 20px;
+    transition:all 0.3s ease;
+    height: 100px;
+}
+.lux-photo-btn span.title{
+    margin: 40px 10px 0px 10px;
+    display: block;
+    font-size: 12px;
+    color: #adadad;
+}
+.lux-photo-btn:hover {
+    background: #f3b79b;
+}
+.lux-photo-btn:hover span:before {
+    /*content: " Upload";*/
+}
+.lux-photo-btn .error {
+    font-size: 12px;
+}
+
+.lux-ul-condition {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.lux-ul-condition li{
+    float: left;
+    margin-right: 10px;
+}
+
+.lux-info .info{
+    display: none;
+}
+
+
+ .tips div {
+    font-size: 14px;
+    opacity: 0;
+    transition:all 0.3s ease;
+     position: absolute;
+
+
+}
+.tips div.show {
+    opacity: 1;
+}
+.tips > div > span{
+    color: #f3b79b;
+    font-weight: bold;
+    display: block;
+
+
+}
+/*////// Uploader Css ///*/
+.uprogress{
+    margin: auto 20px;
+}
+.bar {
+    height: 10px;
+    background: green;
+
+}
+.loader {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0px;
+    left: 0px;
+    background: rgba(74, 74, 74, 0.46);
+    display: table;
+}
+.loader .td{
+    display: table-cell;
+    width: 100%;
+    height: 100px;
+    vertical-align: middle;
+    text-align: center;
+}
+.cb-input {
+    cursor: pointer;
+}
+.cb-input::before {
+    content: '';
+    position: absolute;
+    right: 24px;
+    top: 16px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #e8e8e8;
+    clear: both;
+}
+
+
+.funkyradio div {
+    clear: both;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.funkyradio label {
+    width: 100%;
+    border-radius: 0px;
+    border: 1px solid #D1D3D4;
+    font-weight: normal;
+}
+
+.funkyradio input[type="radio"]:empty,
+.funkyradio input[type="checkbox"]:empty {
+    display: none;
+}
+
+.funkyradio input[type="radio"]:empty ~ label,
+.funkyradio input[type="checkbox"]:empty ~ label {
+    position: relative;
+    line-height: 2.5em;
+    text-indent: 3.25em;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.funkyradio input[type="radio"]:empty ~ label:before,
+.funkyradio input[type="checkbox"]:empty ~ label:before {
+    position: absolute;
+    display: block;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    content: '';
+    width: 2.5em;
+    background: #D1D3D4;
+}
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label,
+.funkyradio input[type="checkbox"]:hover:not(:checked) ~ label {
+    color: #888;
+}
+
+.funkyradio input[type="radio"]:hover:not(:checked) ~ label:before,
+.funkyradio input[type="checkbox"]:hover:not(:checked) ~ label:before {
+    content: '\2714';
+    text-indent: .9em;
+    color: #f3b79b;//soso
+}
+
+.funkyradio input[type="radio"]:checked ~ label,
+.funkyradio input[type="checkbox"]:checked ~ label {
+    color: #777;
+}
+
+.funkyradio input[type="radio"]:checked ~ label:before,
+.funkyradio input[type="checkbox"]:checked ~ label:before {
+    content: '\2714';
+    text-indent: .9em;
+    color: #333;
+    background-color: #f3b79b;
+}
+
+.funkyradio input[type="radio"]:focus ~ label:before,
+.funkyradio input[type="checkbox"]:focus ~ label:before {
+    box-shadow: 0 0 0 3px #999;
+}
+
+.funkyradio-default input[type="radio"]:checked ~ label:before,
+.funkyradio-default input[type="checkbox"]:checked ~ label:before {
+    color: #333;
+    background-color: #ccc;
+}
+
+.funkyradio-primary input[type="radio"]:checked ~ label:before,
+.funkyradio-primary input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #337ab7;
+}
+
+.funkyradio-success input[type="radio"]:checked ~ label:before,
+.funkyradio-success input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #5cb85c;
+}
+
+.funkyradio-danger input[type="radio"]:checked ~ label:before,
+.funkyradio-danger input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #d9534f;
+}
+
+.funkyradio-warning input[type="radio"]:checked ~ label:before,
+.funkyradio-warning input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #f0ad4e;
+}
+
+.funkyradio-info input[type="radio"]:checked ~ label:before,
+.funkyradio-info input[type="checkbox"]:checked ~ label:before {
+    color: #fff;
+    background-color: #5bc0de;
+}
+
+
+
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
+}
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px !important;
+    direction: ltr;
+    cursor: pointer;
+    height: 100%;
+}
+
+/* Fixes for IE < 8 */
+@media screen\9 {
+    .fileinput-button input {
+        filter: alpha(opacity=0);
+        font-size: 100%;
+        height: 100%;
+    }
+}

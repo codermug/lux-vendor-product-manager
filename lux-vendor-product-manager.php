@@ -22,77 +22,44 @@ if(file_exists(dirname(__FILE__).'/vendor/autoload.php')) {
     require_once dirname(__FILE__).'/vendor/autoload.php';
 }
 
+define ('PLUGIN_PATH', plugin_dir_path(__FILE__));
+define ('PLUGIN_NAME','lux-vendor-manager');
+
+use App\Inc\Activate;
+use App\Inc\Deactivate;
+Use App\Inc\DataService;
+Use App\Controllers\AdminController;
 
 
-if( ! class_exists( 'LuxVendorManager' ) ) {
-    class LuxVendorManager {
+//if( ! class_exists( 'App\Start' ) ) {
 
-        private $shortcode_name = 'pollka';
+    $lux_vendor = new \App\Start();
+    $lux_vendor->register();
 
-        // trigger methods
-        public function register() {
-            add_shortcode( $this->shortcode_name, [$this, 'shortcode'] );
-            add_action( 'wp_enqueue_scripts', [$this, 'scripts'] );
-            add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
-            add_action( 'admin_menu', [$this,'wpplugin_settings_page'] );
+    register_activation_hook(__FILE__,[$lux_vendor,'activate']);
+    register_deactivation_hook(__FILE__,[$lux_vendor,'deactivate']);
+//}
 
+//if (! function_exists('_includes')) {
 
-        }
-        public function shortcode( $atts ) {
-            require_once plugin_dir_path(__FILE__).'views/front/dashboard.php';
-        }
-        // Only enqueue scripts if we're displaying a post that contains the shortcode
-        // Register front-end scripts
-        public function scripts() {
-            global $post;
-            //if( has_shortcode( $post->post_content, $this->shortcode_name ) ) {
-                wp_enqueue_script( 'salam-vue', 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js', [], '2.5.16' );
-                //wp_enqueue_script( 'salam-script', plugin_dir_url( __FILE__ ) . 'assets/js/vue-select.js', ['vue'], '2.0', true );
-                // wp_enqueue_script( 'salam-script', plugin_dir_url( __FILE__ ) . 'assets/js/salam.js', ['vue'], '0.1', true );
-                wp_enqueue_style( 'salam-bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css', [], '4.1.3' );
-                wp_enqueue_script( 'salam-bootstrap', 'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js', [], '4.1.3' );
-
-                wp_enqueue_script( 'salam-select2-js', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js', [], '2.5.16' );
-                wp_enqueue_style( 'salam-select2-css', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css', [], '4.1' );
+    function _includes($file,$attr=[]) {
 
 
-               // wp_enqueue_style( 'salam-css', plugin_dir_url( __FILE__ ) . 'css/salam.css', [], '0.1' );
-           // }
-        }
-
-
-
-
-        function admin_page()
-        {
-            // Double check user capabilities
-            if ( !current_user_can('manage_options') ) {
-                return;
-            }
-
-            require_once plugin_dir_path(__FILE__).'views/admin/dashboard.php';
-        }
-        function wpplugin_settings_page()
-        {
-            add_menu_page(
-                'Vendor Product Manager',
-                'Vendor Product Manager',
-                'manage_options',
-                'lux-vendor-manager',
-                [$this,'admin_page'],
-                'dashicons-wordpress-alt',
-                5
-            );
+        if(is_array($attr)) {
+            extract($attr);
 
         }
 
-       // function activate() { }
-       // function deactivate() {}
-      //  function uninstall() {}
 
+        require PLUGIN_PATH.'app/views/'.$file;
     }
-    (new LuxVendorManager())->register();
+//}
+
+function _lux_admin_url($page,$keys_values="") {
+    $path = 'admin.php?page=lux-vendor-manager_'.$page;
+    if(isset($keys_values))
+        return  add_query_arg($keys_values,admin_url($path));
+    return  admin_url($path);
 }
-//register_activation_hook(__FILE__,[]);
-//register_deactivation_hook(__FILE__,[]);
+
 ?>
