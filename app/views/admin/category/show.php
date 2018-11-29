@@ -5,8 +5,14 @@
         <?php if(count($materials)) {?>
             <table class="table table-hover">
             <?php foreach ($materials as $material) {?>
-               <tr><td><?php echo $material->name?></td>
-                   <td width="20%" class="text-center"><button class="btn btn-sm btn-info">Remove</button></td>
+               <tr><td><?php echo $material->text?></td>
+                   <td width="20%" class="text-center">
+                        <form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post" class="del-Material">
+                            <input type="hidden" value="<?php echo $nonce?>" name="nonce">
+                            <input type="hidden" value="<?php echo $id?>" name="delid">
+                            <button class="btn btn-sm btn-info rounded-0" type="submit">Remove</button>
+                        </form>
+                   </td>
                </tr>
             <?php } ?>
             </table>

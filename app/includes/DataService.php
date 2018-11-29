@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Inc;
+use App\Models\CategoryModel;
 
 class DataService {
 
@@ -133,6 +134,36 @@ class DataService {
              return $chain_categories;
 
 
+    }
+
+    public static function categoryMaterialsAssociated() {
+        $chain_categories = [];
+        $taxonomy     = 'product_cat';
+        $orderby      = 'name';
+        $show_count   = 1;      // 1 for yes, 0 for no
+        $pad_counts   = 0;      // 1 for yes, 0 for no
+        $hierarchical = 1;      // 1 for yes, 0 for no
+        $title        = '';
+        $empty        = 0;
+
+        $args = array(
+            'taxonomy'     => $taxonomy,
+            'orderby'      => $orderby,
+            'show_count'   => $show_count,
+            'pad_counts'   => $pad_counts,
+            'hierarchical' => $hierarchical,
+            'title_li'     => $title,
+            'hide_empty'   => $empty
+        );
+        $categories = get_categories( $args );
+        $data = [];
+        foreach ($categories as $key => $value) {
+          //  $data['category_id']['category_id'] = $value->term_id;
+            $data[$value->term_id]['materials']   = CategoryModel::getMaterials($value->term_id);
+           
+        }
+
+        return json_encode($data);
     }
 
     static function wooCommerceCondition($is_json=0){

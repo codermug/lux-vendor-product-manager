@@ -27,15 +27,13 @@ class FrontSetting
 
         wp_enqueue_script( 'salam-select2-js', plugins_url('lux-vendor-product-manager/assets/js/select2.full.min.js') );
 
-       // wp_register_script( 'salam-smart_wizard-script',plugins_url('lux-vendor-product-manager/assets/js/jquery.smartWizard.min.js') ,array('jquery'), '1.1', false);
-       // wp_enqueue_script('salam-smart_wizard-script');
 
 
         wp_register_script( 'salam-uploader-image-loader',plugins_url('lux-vendor-product-manager/assets/js/uploader/js/load-image.all.min.js') ,array('jquery'), '1.1', false);
         wp_enqueue_script('salam-uploader-image-loader');
 
         wp_register_script( 'salam-uploader-image-canvas',plugins_url('lux-vendor-product-manager/assets/js/uploader/js/canvas-to-blob.min.js') ,array('jquery'), '1.1', false);
-        wp_enqueue_script('salam-uploader-image-canvas');
+        wp_enqueue_script ('salam-uploader-image-canvas');
 
         wp_register_script( 'salam-uploader-widget',plugins_url('lux-vendor-product-manager/assets/js/uploader/js/vendor/jquery.ui.widget.js') ,array('jquery'), '1.1', false);
         wp_enqueue_script('salam-uploader-widget');
@@ -61,8 +59,12 @@ class FrontSetting
 
         // Localize the script with new data
         $data_array = array(
-            '_brands'=>DataService::wooCommerceBrands(),
-            '_categories'=>DataService::wooCommerceCategories(),
+            '_brands'    => DataService::wooCommerceBrands(),
+            '_categories'=> DataService::wooCommerceCategories(),
+            '_materials' => DataService::categoryMaterialsAssociated(),
+            '_conditions'=> DataService::wooCommerceCondition(),
+            '_nnn'       => wp_create_nonce("my_user_vote_nonce"),
+            '_url'       => admin_url('admin-ajax.php'),
         );
         wp_localize_script( 'salam-vendor-custom', 'data_array', $data_array );
         wp_enqueue_script('salam-vendor-custom');

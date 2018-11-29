@@ -12,9 +12,7 @@ use App\Models\CategoryModel;
 
 class AdminController
 {
-    private $nonce;
-
-
+    
     public function route()
     {
 
@@ -71,13 +69,14 @@ class AdminController
     public function categoryShow() {
 
         $id = $_GET["id"];
-        $category = CategoryModel::find($id);
+        $category  = CategoryModel::find($id);
         $materials = CategoryModel::getMaterials($id);
 
-        print_r($category);
+        $nds_admin_nonce = wp_create_nonce( 'nds_admin_nonce' );
         _includes('admin/category/show.php',[
             "category"=>$category,
-            "materials"=>$materials
+            "materials"=>$materials,
+            "nonce" => $this->getNonce(),
         ]);
     }
     public function productsIndex() {
@@ -96,37 +95,28 @@ class AdminController
         ]);
     }
 
+    private function getNonce() {
+        return wp_create_nonce( 'nds_admin_nonce' );
+    }
+
     public function postCategoryMaterials() {
 
 
-        if( isset( $_POST['nds_add_user_meta_nonce'] ) && wp_verify_nonce( $_POST['nds_add_user_meta_nonce'], 'nds_add_user_meta_form_nonce') ) {
-            // sanitize the input
-            /*$nds_user_meta_key = sanitize_key( $_POST['nds']['user_meta_key'] );
-            $nds_user_meta_value = sanitize_text_field( $_POST['nds']['user_meta_value'] );
-            $nds_user =  get_user_by( 'login',  $_POST['nds']['user_select'] );
-            $nds_user_id = absint( $nds_user->ID ) ;
-            // do the processing
-            // add the admin notice
-            $admin_notice = "success";
-            // redirect the user to the appropriate page
-            $this->custom_redirect( $admin_notice, $_POST );
-            exit;*/
-
-
-             CategoryModel::insert($_POST);
+        //echo "<pre>"; print_r($_POST);
+        if( isset( $_POST['nds_admin_nonce'] ) && wp_verify_nonce( $_POST['nds_admin_nonce'], 'nds_admin_nonce') ) {
+            // validate $_post
+            // insert post
+            CategoryModel::insert($_POST);
             $status = "success";
             $alert  = "success";
-            $msg    = " added successfully";
+            $msg    = " Added successfully";
 
         }
         else {
             $status = "error";
             $alert  = "danger";
             $msg    = " unable to save ";
-            /*wp_die( __( 'Invalid nonce specified', $this->plugin_name ), __( 'Error', $this->plugin_name ), array(
-                'response' 	=> 403,
-                'back_link' => 'admin.php?page=' . $this->plugin_name,
-            ));*/
+        
         }
 
         echo json_encode(['msg'=>$msg,'alert'=>$alert,'status'=>$status]);

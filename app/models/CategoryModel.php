@@ -16,9 +16,11 @@ class CategoryModel
     public static function insert($posts) {
         global $wpdb;
 
+        echo $posts['category_id'];
 
         if(isset($posts['materials'])) {
               foreach ($posts['materials'] as $material) {
+                
                $data = array(
                    'category_id'       => $posts['category_id'],
                    'category_taxonomy' => 'product_cat',
@@ -36,7 +38,18 @@ class CategoryModel
 
     public static function getMaterials($id) {
         global $wpdb;
-        return $wpdb->get_results( "SELECT wp_terms.name as name FROM wp_terms WHERE  term_id in (SELECT material_id FROM ".self::$table." WHERE category_id = ".$id.")");
+      //  return $wpdb->get_results( "SELECT wp_terms.name as text, wp_terms.term_id as id FROM wp_terms WHERE  term_id in (SELECT material_id FROM ".self::$table." WHERE category_id = ".$id.")");
+      return $wpdb->get_results( "SELECT wp_terms.name as text, wp_terms.term_id as id FROM wp_terms WHERE  term_id in (SELECT material_id FROM ".self::$table." WHERE category_id = ".$id.")");
+
+    }
+
+    public static function getTotalMaterialsCount($id) {
+        global $wpdb;
+        $total =  $wpdb->get_results( "SELECT count(*) as total  FROM ".self::$table." WHERE category_id = ".$id);
+        //print_r($total);
+        if(count($total[0]))
+            return $total[0];
+        return 0;
 
     }
 
@@ -48,6 +61,8 @@ class CategoryModel
         return null;
 
     }
+
+    
 
 
 }

@@ -11,7 +11,6 @@
                 <div class="funkyradio-default">
                     <input  type="radio"  value="option1" id="<?php echo $condition['text']?>">
                     <label for="<?php echo $condition['text']?>"><?php echo $condition['text']?></label>
-
                 </div>
             </li>
             <?php } ?>

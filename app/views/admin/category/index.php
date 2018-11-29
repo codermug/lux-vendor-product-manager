@@ -1,16 +1,18 @@
-<?php $nds_add_meta_nonce = wp_create_nonce( 'nds_add_user_meta_form_nonce' );?>
+<?php $nds_admin_nonce = wp_create_nonce( 'nds_admin_nonce' );?>
 <!--suppress ALL -->
 <div class="row">
     <div class="col">
         <hr>
-        <h1>Categories</h1>
+            <h1>Categories</h1>
         <hr>
-        <table class="table table-hover " id="categoriesTable-">
+        <table class="table table-hover " id="categoriesTable">
             <thead>
             <tr>
-                <th>Categories</th>
+                <th>ID</th>
+                <th>Name</th>
                 <th class="text-center">Total Products</th>
-                <th>Material</th>
+                <th  class="text-center">Material</th>
+                <th  class="text-center">Action</th>
             </tr>
             <thead>
             <tbody>
@@ -48,13 +50,13 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <div class="modal-body">
+                    <div class="modal-body pt-0">
                         <div class="alert alert-success" role="alert" style="display: none"></div>
 
                         <div class="search-wrapper">
-                            <input type="text" class="form-control search-materials" v-model="search"  placeholder="Search title.."/>
+                            <input type="text" class="form-control search-materials rounded-0" v-model="search"  placeholder="Search title.."/>
                         </div>
-                        <div class="row">
+                        <div class="row mt-5 pt-4">
                             <div class="col-md-6" v-for="post in filteredList">
                                 <div class="form-check form-check-inline rounded-0"  v-bind:href="post.title">
                                     <label class="form-check-label">
@@ -66,11 +68,11 @@
                         </div>
                         <input type="hidden" name="category_id" value="">
                         <input type="hidden" name="action" value="lux_form_cat_materials">
-                        <input type="hidden" name="nds_add_user_meta_nonce" value="<?php echo $nds_add_meta_nonce ?>" />
+                        <input type="hidden" name="nds_admin_nonce" value="<?php echo $nds_admin_nonce ?>" />
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" name="submit" class="btn btn-primary submit" >Save changes {{counter}}</button>
+                        <button type="button" class="btn btn-sm btn-secondary rounded-0" data-dismiss="modal">Close</button>
+                        <button type="button" name="submit" class="btn btn-sm btn-info rounded-0 submit" >Save  </button>
                     </div>
                 </form>
             </div>
@@ -79,9 +81,23 @@
 
 <style>
     .modal-body{
-        height: 250px;
+        height: 400px;
         overflow-y: auto;
     }
+
+    .modal-body .search-wrapper{
+        position: fixed;
+        width: 98%;
+        background: #efefef;
+        left: 2px;
+        right: 10px;
+        z-index: 1;
+        padding: 10px;
+    }
+
+     .modal-body input[type=checkbox]:checked + label {
+         background-color: #bbb;
+     }
 </style>
 
 

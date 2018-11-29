@@ -2,7 +2,7 @@
 var lux_vendor_materials = lux_vendor_materials;
 jQuery(document).ready(function () {
     var table2 = jQuery('#categoriesTable').DataTable({
-        "paging":   false,
+        "paging":   true,
         "ordering": false,
         "info":     false,
         "aaSorting": []
@@ -15,7 +15,7 @@ jQuery(document).ready(function () {
 
     });*/
 
-
+    
 
     var app = new Vue ({
         el: '#app',
@@ -44,11 +44,11 @@ jQuery(document).ready(function () {
         jQuery('.search-materials').val();
         // reset search filter vue.js
         var button = jQuery(event.relatedTarget);
-        var recipient = button.data('category_name');
-        var recipient_id = button.data('category_id');
+        var category_name = button.data('category_name');
+        var category_id = button.data('category_id');
         var modal = jQuery(this);
-            modal.find('.modal-title').text('Set Materials for ' + recipient );
-            modal.find('input[name=category_id]').val(recipient_id);
+            modal.find('.modal-title').text('Set Materials for ' + category_name );
+            modal.find('input[name=category_id]').val(category_id);
     });
     jQuery('#myModal').on('hidden.bs.modal', function (e) {
         __reset_form();
@@ -63,12 +63,12 @@ jQuery(document).ready(function () {
 
 function __disable_form() {
     jQuery('#appCatMaterials').find('input[type=text]').prop('disabled', true);
-    jQuery('#appCatMaterials').find('input:checkbox').prop('disabled', true);
-    jQuery('#appCatMaterials').find('.submit').html('please wait ...');
+   // jQuery('#appCatMaterials').find('input:checkbox').prop('disabled', true);
+    jQuery('#appCatMaterials').find('.submit').prop('disabled', true).html('please wait ...');
 }
 function __reset_form() {
     jQuery('#appCatMaterials').find('.alert').hide();
-    jQuery('#appCatMaterials').find('.submit').html('Save');
+    jQuery('#appCatMaterials').find('.submit').html('Save').prop('disabled', false);
     jQuery('#appCatMaterials').find('input[name=category_id]').val('');
     jQuery('#appCatMaterials').find('input[type=text]').prop('disabled', false);
     jQuery('#appCatMaterials').find('input:checkbox').prop('disabled', false).removeAttr('checked');
@@ -76,6 +76,7 @@ function __reset_form() {
 function __submit_materials() {
     var $form = jQuery('#appCatMaterials');
         $form.find('.alert').hide();
+
     jQuery(".submit").on('click',function (e) {
         e.preventDefault();
         __disable_form();
@@ -99,3 +100,27 @@ function __submit_materials() {
     });
 }
 
+
+
+function _remove_element() {
+    $.each('.del-Material',function(){
+            $(this).on('submit',function(e) {
+                e.preventDefault();
+                var $form = $(this);
+                jQuery.ajax({
+                    url : $form.attr('action'),
+                    type: 'POST',
+                    data: $form.serialize(),
+                    dataType:"json",
+                    success: function (response) {
+                        
+                        console.log(response);
+                    },
+                    fail: function () {
+                        console.log("submittion fail");
+                    }
+                });
+            });
+    });
+    
+}
