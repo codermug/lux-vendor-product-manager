@@ -12,7 +12,7 @@
                 <th>Name</th>
                 <th class="text-center">Total Products</th>
                 <th  class="text-center">Material</th>
-                <th  class="text-center">Action</th>
+                <th  class="text-right"></th>
             </tr>
             <thead>
             <tbody>

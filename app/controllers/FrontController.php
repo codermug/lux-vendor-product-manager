@@ -45,7 +45,7 @@ class FrontController
 
     }
 
-    function getJsonMaterials()
+    /*function getJsonMaterials()
     {
 
         // validate nonce
@@ -59,7 +59,7 @@ class FrontController
         die();
         //get
 
-    }
+    }*/
 
     static function dashboard()
     {

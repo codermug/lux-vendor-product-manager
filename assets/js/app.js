@@ -7,7 +7,7 @@ console.log(_DATA_ARR._categories);
 function load_uploaders(parentApp) {
     var myParent = parentApp;
     jQuery('.fileupload').each(function (index) {
-        var  url = jQuery(this).attr('action');
+        var  url = jQuery(this).attr('data-action');
         var $form = jQuery(this);
         var $pForm = jQuery('#smvi');
         var uploader_n  = index;
@@ -174,36 +174,42 @@ jQuery(document).ready(function () {
         
         },
         methods: {
-            setBrand: function(text) {
-                this.selected_b = ": "+text;
+            setBrand: function(id,text) {
+                this.selected_b = {'id':id,'text':text};
                 setTimeout(function(){  jQuery('#categoryModal').modal('hide');}, 300);
                
                
             },
-            setGender: function(text) {
-                this.selected_g = ": "+text;
+            setGender: function(id,text) {
+                this.selected_g = {'id':id,'text':text};
             },
-            setMaterial: function(text) {
+            setMaterial: function(id,text) {
                
-                this.selected_m = ": "+text;
+                this.selected_m = {'id':id,'text':text};
                 console.log(this.selected_m);
             },
-            setColor: function(text) {
-                this.selected_cl = ": "+text;
+            setColor: function(id,text) {
+                this.selected_cl = {'id':id,'text':text};
                 console.log(this.selected_cl);
             },
-            setCnd: function(text) {
-                this.selected_co = ": "+text;
+            setCnd: function(id,text) {
+                this.selected_co = {'id':id,'text':text};
                 console.log(this.selected_co);
                 
                 setTimeout(function(){  jQuery('#materialModal').modal('hide');}, 300);
             },
             
             getMaterials:  function (id,text) {
+
+              
               this.slCat =  id;
+              alert('category id '+id);
+
+            
+              console.log(id);
               var data = JSON.parse(this.catMaterialsList);
               
-              this.selected_c = ": "+ text;
+              this.selected_c = {'id':id,'text':text};
            
               
              // var provinceAbc = data.filter(d => d.province_id === 'ABC');
@@ -239,17 +245,25 @@ jQuery(document).ready(function () {
                     this.selected_cl=='' ||
                     this.selected_co=='' ||
                     this.selected_wi=='' ||
-                    this.selected_h==''  ||
-                    this.selected_gallery.length < 6 ) {
+                    this.selected_h==''  
+                    ) {
+                        // this.selected_gallery.length < 6
                     //show errors
 
                 } else {
 
+                    
                     console.log('--- send ajax request ----- ')
                     var url =  jQuery('#smvi').attr('action');
-                    alert(url);
-                    alert(jQuery('#smvi').serialize());
-                
+                    
+                   
+                    jQuery('input[name=ct]').val(this.slCat);
+                    jQuery('input[name=bd]').val(this.selected_b.id);
+                    jQuery('input[name=mt]').val(this.selected_m.id);
+                    jQuery('input[name=color]').val(this.selected_cl.id);
+                    jQuery('input[name=cnd]').val(this.selected_co.id);
+
+                    alert(jQuery('input[name=ct]:checked').val());
                     jQuery.ajax({
                         url : url,
                         type : 'post',

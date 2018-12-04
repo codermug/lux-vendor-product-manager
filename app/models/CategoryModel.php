@@ -16,7 +16,6 @@ class CategoryModel
     public static function insert($posts) {
         global $wpdb;
 
-        echo $posts['category_id'];
 
         if(isset($posts['materials'])) {
               foreach ($posts['materials'] as $material) {
@@ -38,8 +37,14 @@ class CategoryModel
 
     public static function getMaterials($id) {
         global $wpdb;
-      //  return $wpdb->get_results( "SELECT wp_terms.name as text, wp_terms.term_id as id FROM wp_terms WHERE  term_id in (SELECT material_id FROM ".self::$table." WHERE category_id = ".$id.")");
-      return $wpdb->get_results( "SELECT wp_terms.name as text, wp_terms.term_id as id FROM wp_terms WHERE  term_id in (SELECT material_id FROM ".self::$table." WHERE category_id = ".$id.")");
+        return $wpdb->get_results( "SELECT wp_terms.name as text, wp_terms.term_id as id FROM wp_terms WHERE  term_id in (SELECT material_id FROM ".self::$table." WHERE category_id = ".$id.")");
+
+    }
+
+    public static function getMaterialsRecords($id) {
+        global $wpdb;
+       $query  = "SELECT  t1.id , t1.material_id , t2.name as material_name, t2.term_id , t1.category_id  FROM wp_lux_category_materials t1 left join wp_terms t2 on (t2.term_id = t1.material_id) WHERE t1.category_id =".$id;
+       return $wpdb->get_results( $query );
 
     }
 
@@ -59,6 +64,14 @@ class CategoryModel
         if(isset($r[0]))
             return $r[0];
         return null;
+
+    }
+
+    public static function delete($id) {
+        global $wpdb;
+      return  $wpdb->query( "DELETE FROM ".self::$table." WHERE  id =".$id);
+
+       
 
     }
 

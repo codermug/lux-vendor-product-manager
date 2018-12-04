@@ -12,13 +12,12 @@
                                 <input type="text" class="form-control rounded-0" v-model="search_material"  placeholder="Search Material.."/>
                             </div>
                             <div class="search-wrapper scrollbar">
-                                    <div class="btn-group-toggle" data-toggle="buttons"  >
-                                        <label class="btn btn-block btn-ct" v-for="material in filteredMaterialsList" @click="setMaterial(material.text)">
+                                    <div class="btn-group-toggle"   >
+                                        <label class="btn btn-block btn-ct" v-for="material in filteredMaterialsList" @click="setMaterial(material.id,material.text)" v-bind:class="[selected_m.id == material.id ? 'active':'']">
                                             <input  type="radio" id="" name="mt" v-bind:value="material.id"> {{material.text}}
                                         </label>
                                     </div>
                             </div>
-                           
                     </div>
                     <div class="col-md-4 col-box">
                             <div class="title">
@@ -26,7 +25,7 @@
                             </div>
                             <div class="search-wrapper scrollbar">
                                     <div class="form-check cl-d" v-for="color in filteredColorsList" >
-                                        <label class="color form-check-label" @click="setColor(color)">
+                                        <label class="color form-check-label" @click="setColor(color,color)" >
                                             <input  type="radio" id="" name="color" class="form-check-input" v-bind:value="color">
                                             <span v-bind:class="color"></span>  {{color}}
                                         </label>
@@ -39,8 +38,8 @@
                                 <input type="text" class="form-control rounded-0" v-model="search_condition"  placeholder="Search Condition.."/>
                             </div>
                             <div class="search-wrapper scrollbar">
-                                    <div class="btn-group-toggle" data-toggle="buttons"  >
-                                        <label class="btn btn-block btn-ct" v-for="cn in filteredConditionList" @click="setCnd(cn.text)">
+                                    <div class="btn-group-toggle"   >
+                                        <label class="btn btn-block btn-ct" v-for="cn in filteredConditionList" @click="setCnd(cn.id,cn.text)" v-bind:class="[selected_co.id == cn.id ? 'active':'']">
                                             <input  type="radio" id="" name="cnd" v-bind:value="cn.id"> {{cn.text}}
                                         </label>
                                     </div>

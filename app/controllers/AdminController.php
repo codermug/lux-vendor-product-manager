@@ -36,8 +36,12 @@ class AdminController
 
     public function register() {
        // add_action( 'admin_post_form_cat_materials', [$this, 'postCategoryMaterials']);
-        add_action( 'wp_ajax_lux_form_cat_materials', [$this, 'postCategoryMaterials']);
+        add_action( 'wp_ajax_lux_form_cat_materials',        [$this,'postCategoryMaterials']);
         add_action( 'wp_ajax_nopriv_lux_form_cat_materials', [$this,'getJsonMaterials'] );
+
+        add_action( 'wp_ajax_lux_form_del_cat_materials',    [$this,'deleteCategoryMaterial'] );
+        add_action( 'wp_ajax_nopriv_lux_form_del_cat_materials',    [$this,'deleteCategoryMaterial'] );
+        
 
     }
 
@@ -70,12 +74,12 @@ class AdminController
 
         $id = $_GET["id"];
         $category  = CategoryModel::find($id);
-        $materials = CategoryModel::getMaterials($id);
+        $records   = CategoryModel::getMaterialsRecords($id);
 
         $nds_admin_nonce = wp_create_nonce( 'nds_admin_nonce' );
         _includes('admin/category/show.php',[
             "category"=>$category,
-            "materials"=>$materials,
+            "records"=>$records,
             "nonce" => $this->getNonce(),
         ]);
     }
@@ -121,6 +125,19 @@ class AdminController
 
         echo json_encode(['msg'=>$msg,'alert'=>$alert,'status'=>$status]);
         exit();
+    }
+
+    public function deleteCategoryMaterial() {
+
+
+       if( CategoryModel::delete(intval($_POST['delid']))) {
+
+        echo json_encode(['msg'=>'Material Removed Successfully','alert'=>'success','status'=>$status]);
+        exit();
+       }
+
+       echo json_encode(['msg'=>'Unable to remove material','alert'=>'danger','status'=>'error']);
+       exit();
     }
 
 

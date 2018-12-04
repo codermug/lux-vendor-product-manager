@@ -31,7 +31,7 @@ class ProductModel
                         'post_author' => $user_id,
                         'post_content' => $data['pdescription'],
                         'post_status' => "pending",
-                        'post_title' => $data['pname'],
+                        'post_title'  => $data['pname'],
                         'post_parent' => '',
                         'post_type' => "product",
                 );
@@ -43,15 +43,15 @@ class ProductModel
         
         set_post_thumbnail( $post_id, $attach_id );
 
-        update_post_meta( $post_id, '_weight', "" );
+        update_post_meta( $post_id, '_weight', $data['we']);
         update_post_meta( $post_id, '_length', "" );
-        update_post_meta( $post_id, '_width', "" );
-        update_post_meta( $post_id, '_height', "" );
+        update_post_meta( $post_id, '_width', $data['wi'] );
+        update_post_meta( $post_id, '_height', $data['he'] );
 
         update_post_meta( $post_id, '_sku', "");
 
-        update_post_meta( $post_id, '_regular_price', "1" );
-        update_post_meta( $post_id, '_price', "1" );
+        update_post_meta( $post_id, '_regular_price', $data['pr'] );
+        update_post_meta( $post_id, '_price',$data['pr']  );
 
         
         update_post_meta( $post_id, '_visibility', 'visible' );
@@ -164,6 +164,8 @@ class ProductModel
     }
 
     private function _attach_category($post_id,$category_id) {
+
+        echo $category_id;
         global $wpdb;
         $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$category_id),array( '%d', '%d'));
     }

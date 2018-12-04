@@ -53,6 +53,7 @@ jQuery(document).ready(function () {
     jQuery('#myModal').on('hidden.bs.modal', function (e) {
         __reset_form();
     });
+    _remove_element();
 
 });
 
@@ -103,24 +104,31 @@ function __submit_materials() {
 
 
 function _remove_element() {
-    $.each('.del-Material',function(){
-            $(this).on('submit',function(e) {
+    //$.each('.del-Material',function(){
+            jQuery('.del-material').on('click',function(e) {
                 e.preventDefault();
-                var $form = $(this);
+                alert('s')
+                var $form = jQuery(this).closest('form');
+                console.log($form.serialize());
                 jQuery.ajax({
-                    url : $form.attr('action'),
                     type: 'POST',
+                    url : $form.attr('action'),
                     data: $form.serialize(),
                     dataType:"json",
                     success: function (response) {
                         
                         console.log(response);
+                        jQuery('#lux-vendor-page')
+                            .find('.alert')
+                            .addClass('alert-'+response.alert).
+                            html(response.msg)
+                            .show();
                     },
                     fail: function () {
                         console.log("submittion fail");
                     }
                 });
             });
-    });
+    //});
     
 }
