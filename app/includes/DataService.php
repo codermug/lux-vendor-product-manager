@@ -178,6 +178,31 @@ class DataService {
         return $data;
     }
 
+    static function wooCommerceGender($is_json=0){
+        $data = [];
+        $fields = self::getTaxanomy('pa_gender');
+        foreach ($fields as $val) {
+            $temp_arr = ['id'=>$val->term_id,'text'=> $val->name,'description'=>$val->description];
+            array_push($data,$temp_arr);
+        }
+        if($is_json)
+            return json_encode($data);
+        return $data;
+    }
+
+    static function wooCommerceColor($is_json=0){
+        $data = [];
+        $fields = self::getTaxanomy('pa_colour');
+        foreach ($fields as $val) {
+            $temp_arr = ['id'=>$val->term_id,'text'=> $val->name,'description'=>$val->description];
+            array_push($data,$temp_arr);
+        }
+        if($is_json)
+            return json_encode($data);
+        return $data;
+    }
+
+
     static function wooCommerceBrands($is_json=0){
         $data = [];
         $args = [

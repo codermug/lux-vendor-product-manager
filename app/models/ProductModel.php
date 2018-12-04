@@ -77,35 +77,42 @@ class ProductModel
 
         $this->_attach_category($post_id,$data['ct']);
         $this->_attach_brand($post_id,$data['bd']);
+        $this->_attach_condition($post_id,$data['cnd']);
+        $this->_attach_materials($post_id,$data['mt']);
+        $this->_attach_colors($post_id,$data['color']);
+        $this->_attach_gender($post_id,$data['gn']);
       
 
-      
+      echo  $data['cnd'];
 
           $thedata = Array(
+            'pa_condition'=>Array(
+                'name'=>'pa_condition',
+                'value'=> $data['cnd'],
+                'is_visible' => '1',
+                'is_taxonomy' => '1'
+            ),
+
+            'pa_materials'=>Array(
+                'name'=>'pa_materials',
+                'value'=>$data['mt'],
+                'is_visible' => '1',
+                'is_taxonomy' => '1'
+            ),
               'pa_gender'=>Array(
                     'name'=>'pa_gender',
                     'value'=> $data['gd'],
                     'is_visible' => '1',
                     'is_taxonomy' => '1'
                 ),
-                'pa_materials'=>Array(
-                    'name'=>'pa_materials',
-                    'value'=>$data['mt'],
-                    'is_visible' => '1',
-                    'is_taxonomy' => '1'
-                ),
+                
                 'pa_colour'=>Array(
                     'name'=>'pa_colour',
                     'value'=>$data['color'],
                     'is_visible' => '1',
                     'is_taxonomy' => '1'
                 ),
-                'pa_condition'=>Array(
-                    'name'=>'pa_condition',
-                    'value'=> $data['cnd'],
-                    'is_visible' => '1',
-                    'is_taxonomy' => '1'
-                )
+               
           );
           update_post_meta( $post_id,'_product_attributes',$thedata); 
         
@@ -173,6 +180,23 @@ class ProductModel
     private function _attach_brand($post_id,$brand_id) {
         global $wpdb;
         $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$brand_id),array( '%d', '%d'));
+    }
+    private function _attach_condition($post_id,$cnd_id) {
+        global $wpdb;
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$cnd_id),array( '%d', '%d'));
+    }
+    private function _attach_materials($post_id,$mt_id) {
+        global $wpdb;
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$mt_id),array( '%d', '%d'));
+    }
+    private function _attach_colors($post_id,$color_id) {
+        global $wpdb;
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$color_id),array( '%d', '%d'));
+    }
+
+    private function _attach_gender($post_id,$gender_id) {
+        global $wpdb;
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$gender_id),array( '%d', '%d'));
     }
 
 

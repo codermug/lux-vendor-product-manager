@@ -59,6 +59,8 @@ class FrontSetting
 
         // Localize the script with new data
         $data_array = array(
+            '_colors'     => DataService::wooCommerceColor(),
+            '_gender'    => DataService::wooCommerceGender(),
             '_brands'    => DataService::wooCommerceBrands(),
             '_categories'=> DataService::wooCommerceCategories(),
             '_materials' => DataService::categoryMaterialsAssociated(),

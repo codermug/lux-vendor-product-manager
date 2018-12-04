@@ -163,14 +163,16 @@ jQuery(document).ready(function () {
 
             
             slCat:0,
-            colorsList       : ['white','off-white','beige','grey','silver','gold','brown','red','pink','orange','yellow','lime','green','turquoise','blue','dark-blue','purple','navy','violet','black'],
+            genderList : _DATA_ARR._gender,
+            colorsList       : _DATA_ARR._colors,//['white','off-white','beige','grey','silver','gold','brown','red','pink','orange','yellow','lime','green','turquoise','blue','dark-blue','purple','navy','violet','black'],
             categoryList     : _DATA_ARR._categories,
             conditionList    : _DATA_ARR._conditions,
             brandsList       : _DATA_ARR._brands,
             catMaterialsList : _DATA_ARR._materials,
             materialsList    : [],
 
-            attemptSubmit:false
+            attemptSubmit:false,
+            hasError:false,
         
         },
         methods: {
@@ -203,7 +205,6 @@ jQuery(document).ready(function () {
 
               
               this.slCat =  id;
-              alert('category id '+id);
 
             
               console.log(id);
@@ -249,21 +250,23 @@ jQuery(document).ready(function () {
                     ) {
                         // this.selected_gallery.length < 6
                     //show errors
+                    this.hasError = true;
 
                 } else {
 
-                    
+                    this.hasError = false;
                     console.log('--- send ajax request ----- ')
                     var url =  jQuery('#smvi').attr('action');
                     
-                   
-                    jQuery('input[name=ct]').val(this.slCat);
+                    jQuery('input[name=gn]').val(this.selected_g.id);
+                    jQuery('input[name=ct]').val(this.selected_c.id);
                     jQuery('input[name=bd]').val(this.selected_b.id);
                     jQuery('input[name=mt]').val(this.selected_m.id);
                     jQuery('input[name=color]').val(this.selected_cl.id);
                     jQuery('input[name=cnd]').val(this.selected_co.id);
 
-                    alert(jQuery('input[name=ct]:checked').val());
+                    jQuery('button[type=submit]').html("Sending Please wait ...");
+
                     jQuery.ajax({
                         url : url,
                         type : 'post',
@@ -276,8 +279,10 @@ jQuery(document).ready(function () {
                         success : function( response ) {
             
                             console.log('responce :')
-                            console.log(response)
-                            alert('ss');
+                            console.log(response);
+                            if(response.status == "success") {
+
+                            }
             
             
                         },
@@ -311,7 +316,7 @@ jQuery(document).ready(function () {
             filteredColorsList: function filteredList() {
                 var _this = this;
                 return this.colorsList.filter(function  (color) {
-                    return color.toLowerCase().includes(_this.search_color.toLowerCase());
+                    return color.text.toLowerCase().includes(_this.search_color.toLowerCase());
                 });
             },
             filteredConditionList: function filteredList() {

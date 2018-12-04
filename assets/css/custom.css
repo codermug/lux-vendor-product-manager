@@ -124,6 +124,32 @@ label span.silver {
 
 }
 
+.lux-box .collapse.show .card {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1;
+    overflow: scroll;
+    padding: 2em;
+    border: none;
+}
+.lux-box  .collapse.show .card span.btn{
+    color: #ccc;
+    font-size: 2em;
+}
+.lux-box  .collapse.show .card .tips {
+    margin-top: 0 ;
+}
+.lux-box  .collapse.show .card .tips div.tip{
+    opacity: 1;
+    position: relative;
+}
+
+.lux-box  .collapse.show .card  .tips > div.tip > .photo {
+    text-align: center;
+}
 .gn-li label.btn{
     padding: 20px 20px 20px 20px;
 }
@@ -406,7 +432,7 @@ label span.silver {
     border-bottom: #dad2d2 1px solid;
     font-size: 14px;
     padding: 14px;
-
+    text-transform: uppercase;
     border-radius: 0;
     text-align: left;
     margin: 0;
