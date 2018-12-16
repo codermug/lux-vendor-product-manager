@@ -1,19 +1,13 @@
 <?php $my_user_vote_nonce = wp_create_nonce( 'my_user_vote_nonce' ); ?>
 <div id="appModalsP">
-   <!-- <div class="jumbotron">
-    <h3 class="display-4">Sell an item</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    </div>-->
-<?php global $wp;
-    echo $current_slug = add_query_arg( array(), $wp->request );
-?>
+  
 
     <div class="lux-box" v-bind:class="{ 'd-none': ! SubmitSuccess.status }">
         <div class="row">
             <div class="col-md-9">
+                <p>
                 {{SubmitSuccess.text}}
+                </p>
             </div>
         </div>
     </div>

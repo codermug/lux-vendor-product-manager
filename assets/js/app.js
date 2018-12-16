@@ -2,7 +2,6 @@
 
 var _DATA_ARR = data_array;
 
-console.log(_DATA_ARR._categories);
 
 function load_uploaders(parentApp) {
     var myParent = parentApp;
@@ -73,8 +72,7 @@ function load_uploaders(parentApp) {
                 var file = JSON.parse(data.result);
                 var attach_id = 'attachment_'+$form.attr('data-content');
 
-                console.log('uploaded data');
-                console.log(data);
+           
                 if (file.status=='success') {
                    
                     $form.find('.loader > .td').append( 
@@ -103,7 +101,6 @@ function load_uploaders(parentApp) {
                     }
 
                     myParent.selected_gallery.push(uploader_n);
-                    console.log(myParent.selected_gallery);
                 } else if (file.status =='error') {
                     _handle_error($form,file.msg);
                 }
@@ -188,15 +185,12 @@ jQuery(document).ready(function () {
             setMaterial: function(id,text) {
                
                 this.selected_m = {'id':id,'text':text};
-                console.log(this.selected_m);
             },
             setColor: function(id,text) {
                 this.selected_cl = {'id':id,'text':text};
-                console.log(this.selected_cl);
             },
             setCnd: function(id,text) {
                 this.selected_co = {'id':id,'text':text};
-                console.log(this.selected_co);
                 
                 setTimeout(function(){  jQuery('#materialModal').modal('hide');}, 300);
             },
@@ -205,9 +199,6 @@ jQuery(document).ready(function () {
 
               
               this.slCat =  id;
-
-            
-              console.log(id);
               var data = JSON.parse(this.catMaterialsList);
               
               this.selected_c = {'id':id,'text':text};
@@ -223,7 +214,6 @@ jQuery(document).ready(function () {
                    // }
                 }
 
-                console.log(this.materialsList);
              
             },
             isNumeric: function (n) {
@@ -233,7 +223,6 @@ jQuery(document).ready(function () {
                 event.preventDefault();
                 this.attemptSubmit = true;
 
-                console.log("  this.selected_gallery.length = "+ this.selected_gallery.length);
                 if (
                     this.selected_g == ''||
                     this.selected_c==''  ||
@@ -247,15 +236,14 @@ jQuery(document).ready(function () {
                     this.selected_co=='' ||
                     this.selected_wi=='' ||
                     this.selected_h==''  ||
-                    this.selected_t ==''
-                   //this.selected_gallery.length < 6
+                    this.selected_t =='' ||
+                   this.selected_gallery.length < 6
                     ) {
                        
                      this.hasError = '*Please fill out the all required fields';
                 } else {
 
                     this.hasError = '';
-                    console.log('--- send ajax request ----- ')
                     var url =  jQuery('#smvi').attr('action');
                     var $form = jQuery('#smvi');
                     var vueObj = this;
@@ -279,12 +267,7 @@ jQuery(document).ready(function () {
             
                         success : function( data ) {
                             var response = JSON.parse(data);
-                            console.log('response')
-                            console.log(response);
-                            
-                            
-                            console.log('responce :')
-                            console.log(response);
+                          
                             if(response.status == "success") {
                                 vueObj.SubmitSuccess.status =true;
                                 vueObj.SubmitSuccess.text = response.msg;
@@ -296,8 +279,6 @@ jQuery(document).ready(function () {
                                 vueObj.hasError = response.msg;
                             }
 
-                            console.log( "has error " + vueObj.hasError );    
-                           
                             //$form.find('button[type=submit]').html("Send").attr('disabled',false);
             
                         },
@@ -305,12 +286,10 @@ jQuery(document).ready(function () {
                           
                         },
                         error: function (r) {
-                            console.log(r);
                             alert('error');
                         }
 
                     });
-                    console.log( "has error " + vueObj.hasError );    
 
                 }
             },
@@ -352,7 +331,6 @@ jQuery(document).ready(function () {
         },
 
         mounted : function() {
-            console.log(this.conditionList);
             load_uploaders(this) ;
         },
         
@@ -362,7 +340,6 @@ jQuery(document).ready(function () {
     $('.lux-info').hover(
         function () {
             var l = $(this).attr('data-info');
-            console.log('.info-'+l);
             $('.info-'+l).addClass('show');
         },
         function () {

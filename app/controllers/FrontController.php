@@ -45,32 +45,20 @@ class FrontController
 
     }
 
-    /*function getJsonMaterials()
-    {
-
-        // validate nonce
-        if ( !wp_verify_nonce( $_REQUEST['nonce'], "my_user_vote_nonce")) {
-            exit("No naughty business please");
-        }
-
-        $materials = CategoryModel::getMaterials($_POST['category_id']);
-        echo json_encode($materials);
-
-        die();
-        //get
-
-    }*/
-
+   
     static function dashboard()
     {
         // Double check user capabilities
-       // if ( !current_user_can('manage_options') ) {
-         //   return;
-       // }
+        $user = wp_get_current_user();
+      
+        if ( in_array( 'dc_vendor', (array) $user->roles ) ) {
+            _includes('front/dashboard.php');
+        }else {
 
-      //$data = DataService::wooCommerceCategories(); echo "<pre>"; print_r($data);
+            echo "<br>Please contact administration in order to become a vendor";
+        }
 
-       _includes('front/dashboard.php');
+      
     }
 
     public function md_upload_photos_save(){
@@ -79,7 +67,7 @@ class FrontController
 
         $result = $attachment->upload();
         
-       $this->_return_json($result);
+        $this->_return_json($result);
     }
 
     public function md_post_product_save(){

@@ -24,6 +24,7 @@ if(file_exists(dirname(__FILE__).'/vendor/autoload.php')) {
 
 define ('PLUGIN_PATH', plugin_dir_path(__FILE__));
 define ('PLUGIN_NAME','lux-vendor-manager');
+define ('PLUGIN_SHORTCODE_PAGE','/lux/salam-dawod/');
 
 use App\Inc\Activate;
 use App\Inc\Deactivate;

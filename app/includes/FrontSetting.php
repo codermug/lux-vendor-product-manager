@@ -12,9 +12,11 @@ namespace App\Inc;
 class FrontSetting
 {
     public function register() {
-        global $wp;
-        $current_slug = add_query_arg( array(), $wp->request );
-        if($current_slug == "salam-dawod") {
+
+        //echo "<pre>"; print_r($_SERVER);
+        $current_url = $_SERVER['REQUEST_URI'];
+        if(strpos ($current_url ,PLUGIN_SHORTCODE_PAGE)!== false) {
+
             add_action( 'wp_enqueue_scripts', [$this, 'scripts'] );
         }
     }
@@ -82,7 +84,6 @@ class FrontSetting
         //if( has_shortcode( $post->post_content, $this->shortcode_name ) ) {
         wp_enqueue_style( 'salam-bootstrap',   plugins_url('lux-vendor-product-manager/assets/css/bootstrap.min.css'));
         wp_enqueue_style( 'salam-select2-css', plugins_url('lux-vendor-product-manager/assets/css/select2.min.css') );
-        wp_enqueue_style( 'salam-smart_wizard',plugins_url('lux-vendor-product-manager/assets/css/smart_wizard.min.css') );
         wp_enqueue_style( 'salam-css',plugins_url('lux-vendor-product-manager/assets/css/custom.css') );
 
 
