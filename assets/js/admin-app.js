@@ -16,23 +16,24 @@ jQuery(document).ready(function () {
     });*/
 
     
-
-    var app = new Vue ({
-        el: '#app',
-        data: {
-            search: '',
-            postList : lux_vendor_materials,
-            counter: 0
-        },
-        computed: {
-            filteredList: function filteredList() {
-                var _this = this;
-                return this.postList.filter(function  (post) {
-                    return post.name.toLowerCase().includes(_this.search.toLowerCase())
-                });
+    if(jQuery('#app').length) {
+        var app = new Vue ({
+            el: '#app',
+            data: {
+                search: '',
+                postList : lux_vendor_materials,
+                counter: 0
+            },
+            computed: {
+                filteredList: function filteredList() {
+                    var _this = this;
+                    return this.postList.filter(function  (post) {
+                        return post.name.toLowerCase().includes(_this.search.toLowerCase())
+                    });
+                }
             }
-        }
-    });
+        });
+    }
     __submit_materials();
 
 

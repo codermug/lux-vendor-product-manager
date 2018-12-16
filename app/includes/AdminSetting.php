@@ -17,14 +17,18 @@ class AdminSetting
 
     public function register() {
 
-        add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
+       
+        
+      //  if (isset($_GET['page']) && $_GET['page'] == 'lux-vendor-manager') {
+        //         add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
+      //  }
         add_action( 'admin_menu', [$this,'plugin_admin_menu'] );
         add_shortcode( $this->shortcode_name, [FrontController::class, 'dashboard'] );
     }
     public  function scripts() {
         wp_enqueue_script("jquery");
 
-        wp_register_script( 'salam-vue', 'https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.js', [], '2.5.16' );
+        wp_register_script( 'salam-vue', plugins_url('lux-vendor-product-manager/assets/js/vue.js'), [], '2.5.16' );
         wp_enqueue_script('salam-vue');
 
         wp_register_script( 'salam-bootstrap-js', plugins_url('lux-vendor-product-manager/assets/js/bootstrap.min.js') );

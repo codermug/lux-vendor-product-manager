@@ -1,7 +1,7 @@
 <br>
 <a class="btn btn-secondary rounded-0" href="<?php echo _lux_admin_url('categories')?>">Back to Categories</a>
 <div class="card p-0 rounded-0" style="width: 100% !important; max-width: 100% !important;" id="lux-vendor-page">
-    <div class="card-header rounded-0">Category</div>
+    <div class="card-header rounded-0">Category Materials</div>
     <div class="card-body rounded-0">
     <div class="alert alert-success" role="alert" style="display: none"></div>
         <h3><?php echo $category->name;?></h3><br>

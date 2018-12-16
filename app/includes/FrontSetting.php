@@ -12,7 +12,11 @@ namespace App\Inc;
 class FrontSetting
 {
     public function register() {
-        add_action( 'wp_enqueue_scripts', [$this, 'scripts'] );
+       // global $wp;
+       // $current_slug = add_query_arg( array(), $wp->request );
+      //  if($current_slug == "salam-dawod") {
+            add_action( 'wp_enqueue_scripts', [$this, 'scripts'] );
+      //  }
     }
 
     public function scripts() {
