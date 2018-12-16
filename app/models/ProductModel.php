@@ -8,25 +8,30 @@
 
 namespace App\Models;
 use App\Models\AttachmentModel;
-
+use App\Inc\CurrencyManager;
 class ProductModel
 {
-    private static $table = 'wp_lux_posts';
+    private static $table           = 'wp_lux_posts';
+    public         $validate_errors = "";
 
   
     public function insert($data) {
         
-        print_r($data);
+       // print_r($data);
         // insert attachment 
+        $allimages  = [];
         $attachment = new AttachmentModel();
-       /* foreach ($data["attachments"] as $value) {
+        $currency   = new CurrencyManager();
+        foreach ($data["attachments"] as $value) {
            
-            $attachment->insert($value);
-        }*/
+            $allimages[] = $attachment->insert($value);
+        }
         /** Insert thumbnail */
        
         $user_id   =  wp_get_current_user()->ID;
         $attach_id =  $attachment->insert($data['thumbnail']);
+        
+         //Create post
         $post      = array(
                         'post_author' => $user_id,
                         'post_content' => $data['pdescription'],
@@ -35,13 +40,12 @@ class ProductModel
                         'post_parent' => '',
                         'post_type' => "product",
                 );
-        
-        //Create post
-       
        $post_id   = wp_insert_post( $post, $wp_error );
         
         
         set_post_thumbnail( $post_id, $attach_id );
+        update_post_meta($post_id, '_product_image_gallery', implode(',',$allimages) );
+
 
         update_post_meta( $post_id, '_weight', $data['we']);
         update_post_meta( $post_id, '_length', "" );
@@ -49,9 +53,19 @@ class ProductModel
         update_post_meta( $post_id, '_height', $data['he'] );
 
         update_post_meta( $post_id, '_sku', "");
+        // currency details
+        update_post_meta( $post_id, '_lux_product_current_currency', $currency->get_current_currency());
+        update_post_meta( $post_id, '_lux_product_current_rate',     $currency->get_current_currency_rate());
+        update_post_meta( $post_id, '_lux_product_current_price',  $data['pr']);
 
-        update_post_meta( $post_id, '_regular_price', $data['pr'] );
-        update_post_meta( $post_id, '_price',$data['pr']  );
+        
+        $price_gbp = $data['pr'];
+        echo $currency->get_current_currency();
+        if($currency->get_current_currency() != "GBP"){
+         echo  $price_gbp = $WOOCS->back_convert($data['pr'], $currency->get_current_currency_rate(),2);
+        }
+        update_post_meta( $post_id, '_regular_price', $price_gbp);
+        update_post_meta( $post_id, '_price'        , $price_gbp );
 
         
         update_post_meta( $post_id, '_visibility', 'visible' );
@@ -72,18 +86,17 @@ class ProductModel
         update_post_meta( $post_id, '_manage_stock', "yes" );
         update_post_meta( $post_id, '_backorders', "no" );
 
-       // update_post_meta($post_id, '_product_image_gallery', $allimages );
-
-
-        $this->_attach_category($post_id,$data['ct']);
-        $this->_attach_brand($post_id,$data['bd']);
-        $this->_attach_condition($post_id,$data['cnd']);
-        $this->_attach_materials($post_id,$data['mt']);
-        $this->_attach_colors($post_id,$data['color']);
-        $this->_attach_gender($post_id,$data['gn']);
       
 
-      echo  $data['cnd'];
+        $this->_attach_category ($post_id,$data['ct']);
+        $this->_attach_brand    ($post_id,$data['bd']);
+        $this->_attach_condition($post_id,$data['cnd']);
+        $this->_attach_materials($post_id,$data['mt']);
+        $this->_attach_colors   ($post_id,$data['color']);
+        $this->_attach_gender   ($post_id,$data['gn']);
+      
+
+     
 
           $thedata = Array(
             'pa_condition'=>Array(
@@ -101,7 +114,7 @@ class ProductModel
             ),
               'pa_gender'=>Array(
                     'name'=>'pa_gender',
-                    'value'=> $data['gd'],
+                    'value'=> $data['gn'],
                     'is_visible' => '1',
                     'is_taxonomy' => '1'
                 ),
@@ -119,85 +132,133 @@ class ProductModel
         //_yoast_wpseo_primary_product_cat
     }
 
-    public function validate() {
+    // return false if error 
+    // return true if ok  
+    public function valid($data) {
         $msg = '';
        // validate category
        // validate isset
-       if(intval($data['ct'])) {
-          $product["category_id"] =  $data['ct'];
-       }else {
-           $msg = "<br> Error in Catageory";
+
+       if(empty($data['pname'])) {
+        
+            $msg = "\n Product name has not been added";
        }
-       if(intval($data['bd'])) {
-           $product["brand_id"] =  $data['bd'];
-       } else {
-           $msg .= "<br> Error in Brand";
+
+       if(empty($data['pdescription'])) {
+        
+        $msg .= "\n Product description has not been added";
        }
-       if(intval($data['mt'])) {
-           $product["material_id"] =  $data['mt'];
-       } else {
-           $msg .= "<br> Error in Material";
+
+       if(!intval($data['ct'])) {
+        
+           $msg .= "\n Catageory has not been selected";
        }
-       if(intval($data['color'])) {
-           $product["color"] =  $data['color'];
-       } else {
-           $msg .= "<br> Error in Colors";
+       if(!intval($data['bd'])) {
+          
+           $msg .= "\n Select a brand name";
        }
-       if(intval($data['cnd'])) {
-           $product["condition_id"] =  $data['cnd'];
-       } else {
-           $msg .= "<br> Error in Condition";
+       if(!intval($data['mt'])) {
+          
+           $msg .= "\n Select product material";
        }
-       if(in_array($data['gd'],['male','female'])) {
-           $product["gender"] =  $data['gender'];
+       if(empty($data['color'])) {
+          
+           $msg .= "\n Select product Color";
        }
+       if(!intval($data['cnd'])) {
+         
+           $msg .= "\n Select product Condition";
+       }
+       if(!intval($data['gn'])) {
+            $msg .= "\n Gender has not been selected";
+       }
+       if(!is_numeric($data['we'])) {
+        $msg .= "\n Weight has not been added";
+       }
+       if(!is_numeric($data['wi'])) {
+        $msg .= "\n Width has not been added";
+       }
+
+       if(!is_numeric($data['he'])) {
+        $msg .= "\n Height has not been added";
+       }
+       if(!is_numeric($data['pr'])) {
+        $msg .= "\n Price has not been added";
+       }
+
 
        // validate attachments
        if(isset($data['attachments'])) {
             foreach($data['attachments'] as $file) {
-                if( ! $this->_extention_allowed($file)) {
-                    $msg .= "<br> Attached photo not allowed file:". basename( $file );
+                if( ! $this->_validate_extention($file)) {
+                    $msg .= "\n Attached photo not allowed file:". basename( $file );
                 }
             }
         }else {
-            $msg .= "<br> Upload Required photo ";
+            $msg .= "\n Upload Required photo ";
         }
 
       if ($msg !=='') {
-           return $msg;
+
+           $this->validate_errors = $msg;        
+           return false;
       }
       return true;
 
     }
 
     private function _attach_category($post_id,$category_id) {
-
-        echo $category_id;
         global $wpdb;
         $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$category_id),array( '%d', '%d'));
     }
 
     private function _attach_brand($post_id,$brand_id) {
         global $wpdb;
-        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$brand_id),array( '%d', '%d'));
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$this->get_term_texanomy_id($brand_id,"brand")),array( '%d', '%d'));
     }
     private function _attach_condition($post_id,$cnd_id) {
         global $wpdb;
-        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$cnd_id),array( '%d', '%d'));
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$this->get_term_texanomy_id($cnd_id,"pa_condition")),array( '%d', '%d'));
     }
     private function _attach_materials($post_id,$mt_id) {
         global $wpdb;
-        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$mt_id),array( '%d', '%d'));
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$this->get_term_texanomy_id($mt_id,"pa_materials")),array( '%d', '%d'));
     }
     private function _attach_colors($post_id,$color_id) {
         global $wpdb;
-        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$color_id),array( '%d', '%d'));
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$this->get_term_texanomy_id($color_id,"pa_colour")),array( '%d', '%d'));
     }
 
     private function _attach_gender($post_id,$gender_id) {
         global $wpdb;
-        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$gender_id),array( '%d', '%d'));
+        $wpdb->insert( "wp_term_relationships", array("object_id"=>$post_id,"term_taxonomy_id"=>$this->get_term_texanomy_id($gender_id,"pa_gender")),array( '%d', '%d'));
     }
 
+
+    private function get_term_texanomy_id($term_id,$taxonomy) {
+        global $wpdb;
+        $r =  $wpdb->get_results( "SELECT * FROM wp_term_taxonomy WHERE  term_id =".$term_id . " and taxonomy='".$taxonomy."'");
+        
+        if(isset($r[0]))
+          return $r[0]->term_taxonomy_id; 
+        return 0;  
+
+    }
+    // remove them to single file 
+    private function _validate_extention($file) {
+
+        // Set an array containing a list of acceptable formats
+        $allowed_file_types = array('jpg','jpeg','gif','png');
+         $file_type = pathinfo($file, PATHINFO_EXTENSION);
+        // If the uploaded file is the right format
+        if (! in_array($file_type, $allowed_file_types))
+            
+            return false;
+
+        return true;
+
+    }
+
+    
 
 }

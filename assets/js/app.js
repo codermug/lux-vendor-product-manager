@@ -82,7 +82,6 @@ function load_uploaders(parentApp) {
                                       .html("<i class='fa fa-trash'></i>")
                                       .on('click',function(e) {
                                             e.preventDefault();
-                                            alert('delete');
                                             jQuery('#'+attach_id).remove();
                                             if(attach_id=="attachment_front") {
                                                 jQuery('#attachment_thumbnail').remove();
@@ -103,7 +102,6 @@ function load_uploaders(parentApp) {
                         $pForm.append('<input type="hidden" name="thumbnail" id="attachment_thumbnail" value="'+file.url+'">');
                     }
 
-                    console.log(myParent.selected_i_f)
                     myParent.selected_gallery.push(uploader_n);
                     console.log(myParent.selected_gallery);
                 } else if (file.status =='error') {
@@ -157,6 +155,7 @@ jQuery(document).ready(function () {
             selected_co:'',
             selected_wi:'',
             selected_h:'',
+            selected_t:'',
             selected_gallery : [],
 
 
@@ -172,7 +171,8 @@ jQuery(document).ready(function () {
             materialsList    : [],
 
             attemptSubmit:false,
-            hasError:false,
+            SubmitSuccess: {status:false,text:''},
+            hasError:'',
         
         },
         methods: {
@@ -246,50 +246,72 @@ jQuery(document).ready(function () {
                     this.selected_cl=='' ||
                     this.selected_co=='' ||
                     this.selected_wi=='' ||
-                    this.selected_h==''  
+                    this.selected_h==''  ||
+                    this.selected_t ==''
+                   //this.selected_gallery.length < 6
                     ) {
-                        // this.selected_gallery.length < 6
-                    //show errors
-                    this.hasError = true;
-
+                       
+                     this.hasError = '*Please fill out the all required fields';
                 } else {
 
-                    this.hasError = false;
+                    this.hasError = '';
                     console.log('--- send ajax request ----- ')
                     var url =  jQuery('#smvi').attr('action');
+                    var $form = jQuery('#smvi');
+                    var vueObj = this;
                     
-                    jQuery('input[name=gn]').val(this.selected_g.id);
-                    jQuery('input[name=ct]').val(this.selected_c.id);
-                    jQuery('input[name=bd]').val(this.selected_b.id);
-                    jQuery('input[name=mt]').val(this.selected_m.id);
-                    jQuery('input[name=color]').val(this.selected_cl.id);
-                    jQuery('input[name=cnd]').val(this.selected_co.id);
-
-                    jQuery('button[type=submit]').html("Sending Please wait ...");
+                    $form.find('input[name=gn]').val(this.selected_g.id);
+                    $form.find('input[name=ct]').val(this.selected_c.id);
+                    $form.find('input[name=bd]').val(this.selected_b.id);
+                    $form.find('input[name=mt]').val(this.selected_m.id);
+                    $form.find('input[name=color]').val(this.selected_cl.id);
+                    $form.find('input[name=cnd]').val(this.selected_co.id);
+                    //$form.find('button[type=submit]').html("Sending Please wait ...").attr('disabled',true);
 
                     jQuery.ajax({
                         url : url,
                         type : 'post',
-                        dataType: 'json',
+                        //dataType: 'json',
                         data : {
                             action : 'md_pfm_save',
                             dt: jQuery('#smvi').serialize()
                         },
             
-                        success : function( response ) {
-            
+                        success : function( data ) {
+                            var response = JSON.parse(data);
+                            console.log('response')
+                            console.log(response);
+                            
+                            
                             console.log('responce :')
                             console.log(response);
                             if(response.status == "success") {
-
+                                vueObj.SubmitSuccess.status =true;
+                                vueObj.SubmitSuccess.text = response.msg;
+                                alert( vueObj.SubmitSuccess)
+                            } else if (response.status == "error") {
+                                vueObj.hasError = response.msg;
+                                
+                            } else {
+                                vueObj.hasError = response.msg;
                             }
-            
+
+                            console.log( "has error " + vueObj.hasError );    
+                           
+                            //$form.find('button[type=submit]').html("Send").attr('disabled',false);
             
                         },
                         complete: function () {
-                            
+                          
+                        },
+                        error: function (r) {
+                            console.log(r);
+                            alert('error');
                         }
+
                     });
+                    console.log( "has error " + vueObj.hasError );    
+
                 }
             },
         },

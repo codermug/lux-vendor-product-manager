@@ -245,7 +245,7 @@ class DataService {
                      return $materials;
     }
 
-    private function getTaxanomy($taxanomy) {
+    private static function getTaxanomy($taxanomy) {
         $args = [
             'taxonomy'     => $taxanomy,
             'orderby'      => 'name',

@@ -85,27 +85,34 @@ class FrontController
     public function md_post_product_save(){
        
         //echo "Post product ..... "; print_r($_POST);print_r($_FILES);
-
-            // validate data
-            // insert attachments
+            
+             // validate data
+             // insert attachments
              // insert product
              // attach attachment to the product 
              // attach meta to the product
 
           if(isset($_POST['dt'])) {
 
-              parse_str($_POST['dt'],$data);
-              
-              $product = new ProductModel();
-              $product->insert($data);
-              $this->_return_json(['msg'=>'product addedd successfully'],'sucess');
-              
-              if(! $msg = $product->validate($data)) {
-                  $this->_return_json(['msg'=>$msg],'error');
-              }
+            
+             parse_str($_POST['dt'],$data);
+
+
+             if($msg = $this->_nonce_validate($data)) {
+                $this->_return_json(['msg'=>$msg],'error');
+             }
+
+             $product = new ProductModel();
+             if(! $product->valid($data)) {
+                $this->_return_json(['msg'=>$product->validate_errors],'error');
+             }
+            
               
              
-
+              $product->insert($data);
+              $this->_return_json(['msg'=>'product addedd successfully'],'success');
+              
+             
              
               
           }
@@ -114,15 +121,18 @@ class FrontController
 
      private function _return_json($data,$status="") {
         if($status) {
-         array_push($data,['status'=>$status]);
+          
+            $data['status']=$status;
+         
         }
         echo json_encode($data);
         die();
+       
      }
 
-     private function nonce_validate($n) {
-        if ( !wp_verify_nonce( $_REQUEST['nonce'], "my_user_vote_nonce")) {
-            exit("No naughty business please");
+     private function _nonce_validate($data) {
+        if ( !wp_verify_nonce( $data['my_user_vote_n'], "my_user_vote_nonce")) {
+            return "No naughty business please";
         }
      }
 

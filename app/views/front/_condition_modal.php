@@ -25,9 +25,9 @@
                             </div>
                             <div class="search-wrapper scrollbar">
                                     <div class="form-check cl-d" v-for="color in filteredColorsList" >
-                                        <label class="color.text form-check-label" @click="setColor(color.id,color.text)" >
+                                        <label class="form-check-label color" @click="setColor(color.id,color.text)" >
                                             <input  type="radio" id="" name="color" class="form-check-input" v-bind:value="color.id">
-                                            <span v-bind:class="color"></span>  {{color.text}}
+                                            <span v-bind:style="{background:[color.description]}"></span>  {{color.text}}
                                         </label>
                                     </div>
                             </div>

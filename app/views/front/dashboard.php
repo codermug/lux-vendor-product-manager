@@ -1,3 +1,12 @@
+<?php $my_user_vote_nonce = wp_create_nonce( 'my_user_vote_nonce' );
+
+
+$currency   = new App\Inc\CurrencyManager(); 
+
+echo $currency->get_current_currency();
+
+
+?>
 <div id="appModalsP">
    <!-- <div class="jumbotron">
     <h3 class="display-4">Sell an item</h1>
@@ -5,8 +14,27 @@
     <hr class="my-4">
     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
     </div>-->
-    <form action="<?php echo  admin_url('admin-ajax.php')?>" method="post" id="smvi" >
-     
+
+    <?php 
+    
+     global $WOOCS;
+
+        
+      //  $currencies = $WOOCS->get_currencies();
+
+//  $res=$WOOCS->back_convert(70,$currencies[$WOOCS->current_currency]['rate'],2);
+     //  echo "<br>price in GBP";
+        
+        ?>
+    <div class="lux-box" v-bind:class="{ 'd-none': SubmitSuccess.status }">
+        <div class="row">
+            <div class="col-md-9">
+                {{SubmitSuccess.text}}
+            </div>
+        </div>
+    </div>
+    <form action="<?php echo  admin_url('admin-ajax.php')?>" method="post" id="smvi" v-bind:class="{ 'd-none': SubmitSuccess.status }">
+    
         <div class="lux-box">
                     <div class="row">
                         <div class="col-md-9">
@@ -116,7 +144,10 @@
                          <div class="label-title">Item Price:</div>
                             <div class="input-group mb-2">
                                 <div class="input-group-prepend">
-                                        <div class="input-group-text">£</div>
+                                        <div class="input-group-text">
+                                        <?php echo get_woocommerce_currency_symbol();?>
+                                        <?php echo get_woocommerce_currency();?>
+                                        </div>
                                 </div>
                                 <input type="text" class="form-control" name="pr"  placeholder="Price" v-model="selected_p"  v-bind:class="{ 'is-invalid': attemptSubmit && selected_p=='' }">
                             </div>
@@ -126,21 +157,35 @@
                 <div class="col-md-3"></div>
             </div>
         </div>
-       
+        <div class="lux-box border-0">
+            <div class="row">
+                 <div class="col-md-9">
+                    <label for="term_agremment" >
+                        <input id="term_agremment" type="checkbox" name="term" v-model="selected_t" > I have read and agree with the <a href="https://www.luxurypromise.com/terms-of-service/" target="new">Terms of Service</a>, the <a href="https://www.luxurypromise.com/privacy-policy/" target="new">Privacy Policy</a> and the <a href="https://www.luxurypromise.com/luxury-promise-commission-structure/" target="new">Commission Structure</a>.<span></span>
+                    </label>            
+                 </div>
+            </div>
+        </div>     
         <div class="lux-box border-0">
             <div class="row">
                     <div class="col-md-9">
                        
                         <div class="form-group float-right">
+                            <input type="hidden" name="my_user_vote_n" value="<?php echo $my_user_vote_nonce ?>" />
                             <button type="submit" class="btn  btn-smvi woocommerce-Button button" v-on:click="validateForm">Send</button>
                         </div>
-                        <p v-if="hasError" class="float-right m-2">*Please fill out the all required fields</p>
+                        <p class="has-error invalid-feedback"  v-if="hasError!=''" class="float-right m-2">{{hasError}} </p>
+                        <p class="has-error invalid-feedback"  v-if="hasError!='' && !selected_t">*In order to use our service please accept term & condition</p>
                     </div>
                     <div class="col-md-3">
                     
                     </div>
             </div>    
         </div>    
-                    
+              
     </form>
+
+    <?php if ( is_active_sidebar( 'header_tools_1' ) ) : ?>
+									<?php dynamic_sidebar( 'header_tools_1' ); ?>
+							<?php endif; ?>
 </div>

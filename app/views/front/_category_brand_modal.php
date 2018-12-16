@@ -15,7 +15,7 @@
                             <div class="search-wrapper">
                                 <div class="btn-group btn-group-toggle gn-li"   >
                                     <label class="btn btn-block btn-ct"  @click="setGender(gender.id,gender.text)" v-for="gender in genderList"  :checked="selected_g.id == gender.id" v-bind:class="[selected_g.id == gender.id ? 'active':'']">
-                                        <input  type="radio" id="" name="gd" v-bind:value="gender.id" autocomplete="off"> {{gender.text}}
+                                        <input  type="radio" id="" name="gn" v-bind:value="gender.id" autocomplete="off"> {{gender.text}}
                                     </label>
                                 </div>
                             </div>

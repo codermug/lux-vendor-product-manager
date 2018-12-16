@@ -75,6 +75,9 @@ class AttachmentModel
         if ( ! is_wp_error( $image ) ) {
              $image->resize( 150, 150, true );
              $image->save($wp_upload_dir['path'].'/'.$this->_get_file_name($file).'200x200.'.$this->_get_file_extention($file) );
+
+             $image->resize( 400, 400, true );
+             $image->save($wp_upload_dir['path'].'/'.$this->_get_file_name($file).'200x200.'.$this->_get_file_extention($file) );
         }   
     }
 
@@ -96,9 +99,8 @@ class AttachmentModel
         require_once( ABSPATH . 'wp-admin/includes/image.php' );
     
         // Generate the metadata for the attachment, and update the database record.
-        $attach_data = wp_generate_attachment_metadata( $attach_id , $file );
-
-        wp_update_attachment_metadata( $attach_id , $attach_data );
+        //$attach_data = wp_generate_attachment_metadata( $attach_id , $file );
+        //wp_update_attachment_metadata( $attach_id , $attach_data );
 
         return $attach_id ;
 
