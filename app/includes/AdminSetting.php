@@ -19,9 +19,9 @@ class AdminSetting
 
        
         
-      //  if (isset($_GET['page']) && $_GET['page'] == 'lux-vendor-manager') {
-        //         add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
-      //  }
+        if (isset($_GET['page']) && $_GET['page'] == 'lux-vendor-manager') {
+                 add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
+        }
         add_action( 'admin_menu', [$this,'plugin_admin_menu'] );
         add_shortcode( $this->shortcode_name, [FrontController::class, 'dashboard'] );
     }
