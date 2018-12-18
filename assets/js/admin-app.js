@@ -1,5 +1,8 @@
-'use strict';
-var lux_vendor_materials = lux_vendor_materials;
+
+var lux_vendor_materials = data_array.materials;
+var lux_nds_admin_nonce = data_array.nonce;
+
+
 jQuery(document).ready(function () {
     var table2 = jQuery('#categoriesTable').DataTable({
         "paging":   true,
@@ -15,14 +18,18 @@ jQuery(document).ready(function () {
 
     });*/
 
+    jQuery('#appCatMaterials').submit(function(e){
+        e.preventDefault();
+    });
+
     
     if(jQuery('#app').length) {
-        var app = new Vue ({
+        var vueApp = new Vue ({
             el: '#app',
             data: {
                 search: '',
                 postList : lux_vendor_materials,
-                counter: 0
+                checkedList: []
             },
             computed: {
                 filteredList: function filteredList() {
@@ -30,11 +37,35 @@ jQuery(document).ready(function () {
                     return this.postList.filter(function  (post) {
                         return post.name.toLowerCase().includes(_this.search.toLowerCase())
                     });
+                },
+                
+            },
+            methods: {
+                setMaterial: function (val) {
+                    console.log(val);
+                    this.checkedList.push(val);
+                },
+                removeMaterial: function (val) {
+                    var index = this.checkedList.indexOf(val);
+                    if (index > -1) {
+                        this.checkedList.splice(index, 1);
+                    }
+                },
+               
+                isExist : function(val){
+                    for(var i=0; i < this.checkedList.length; i++){
+                      if( this.checkedList[i] == val){
+                        return true
+                      }
+                    }
+                    return false
                 }
+              
             }
         });
+        __submit_materials(vueApp);
     }
-    __submit_materials();
+    
 
 
     jQuery('#myModal').on('show.bs.modal', function (e) {
@@ -74,8 +105,9 @@ function __reset_form() {
     jQuery('#appCatMaterials').find('input[name=category_id]').val('');
     jQuery('#appCatMaterials').find('input[type=text]').prop('disabled', false);
     jQuery('#appCatMaterials').find('input:checkbox').prop('disabled', false).removeAttr('checked');
+    vueApp.checkedList = [];
 }
-function __submit_materials() {
+function __submit_materials(vueApp) {
     var $form = jQuery('#appCatMaterials');
         $form.find('.alert').hide();
 
@@ -86,7 +118,7 @@ function __submit_materials() {
         jQuery.ajax({
             url: $form.attr('action'),
             type: 'POST',
-            data:$form.serialize(),
+            data    : {'materials':vueApp.checkedList,'nds_admin_nonce':lux_nds_admin_nonce,'action':'lux_form_cat_materials','category_id':jQuery('#myModal').find('input[name=category_id]').val()},
             dataType:"json",
             success: function (response) {
                 $form.find('.alert').addClass('alert-'+response.alert).html(response.msg).show();

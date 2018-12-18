@@ -40,7 +40,7 @@
 
 <!-- Modal -->
 
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false">
         <div class="modal-dialog modal-lg  modal-dialog-centered" role="document">
             <div class="modal-content rounded-0" id="app">
                 <form action="<?php echo esc_url( admin_url( 'admin-ajax.php' ) ); ?>" method="post" id="appCatMaterials" >
@@ -58,13 +58,18 @@
                         </div>
                         <div class="row mt-5 pt-4">
                             <div class="col-md-6" v-for="post in filteredList">
-                                <div class="form-check form-check-inline rounded-0"  v-bind:href="post.title">
-                                    <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" id="" name="materials[]" v-bind:value="post.term_id">
-                                        {{post.name}}
-                                    </label>
-                                </div>
+                                        <table class="table table-sm m-0">
+                                            <tr>
+                                                <td width="70%"> <span v-bind:class="[isExist(post.term_id) ? 'font-weight-bold':'']">{{post.name}}</td>
+                                                <td>
+                                                    <span class="btn btn-info btn-sm rounded-0" @click="setMaterial(post.term_id)"><i class="fa fa-plus"></i></span>
+                                                    <span class="btn btn-secondary btn-sm rounded-0" @click="removeMaterial(post.term_id)"><i class="fa fa-minus"></i></span></td>
+                                            </tr>
+                                        </table>    
+                                       
+                                        
                             </div>
+                            
                         </div>
                         <input type="hidden" name="category_id" value="">
                         <input type="hidden" name="action" value="lux_form_cat_materials">
@@ -102,9 +107,3 @@
 
 
 
-<script>
-
-    var lux_vendor_materials =  <?php echo App\Inc\DataService::wooCommerceMaterials(1)?>;
-
-
-</script>

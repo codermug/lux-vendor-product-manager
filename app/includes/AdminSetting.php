@@ -19,7 +19,7 @@ class AdminSetting
 
        
         
-        if (isset($_GET['page']) && $_GET['page'] == 'lux-vendor-manager') {
+        if (isset($_GET['page']) &&  ($_GET['page'] == 'lux-vendor-manager' || $_GET['page'] == 'lux-vendor-manager_categories' )) {
                  add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
         }
         add_action( 'admin_menu', [$this,'plugin_admin_menu'] );
@@ -41,13 +41,19 @@ class AdminSetting
         wp_enqueue_script('salam-datatable-js');
 
         wp_register_script( 'salam-vendor-admin-custom',plugins_url('lux-vendor-product-manager/assets/js/admin-app.js') ,array('jquery'), '1.1', false);
+        
+        
+
+        // Localize the script with new data
+        $data_array = array(
+            'nonce'     => wp_create_nonce( 'nds_admin_nonce' ),
+            'materials'    =>  \App\Inc\DataService::wooCommerceMaterials(),
+           
+        );
+        wp_localize_script( 'salam-vendor-admin-custom', 'data_array', $data_array );
         wp_enqueue_script('salam-vendor-admin-custom');
 
-        /* // set variables for script
-    wp_localize_script( 'report-a-bug', 'settings', array(
-        'send_label' => __( 'Send report', 'reportabug' )
-    ) );
-*/
+
     }
 
     public  function plugin_admin_menu()

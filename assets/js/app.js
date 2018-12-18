@@ -240,7 +240,7 @@ jQuery(document).ready(function () {
                    this.selected_gallery.length < 6
                     ) {
                        
-                     this.hasError = '*Please fill out the all required fields';
+                     this.hasError = '<i class="fa fa-info-circle"></i> Please fill out the all required fields';
                 } else {
 
                     this.hasError = '';

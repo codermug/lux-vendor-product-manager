@@ -108,7 +108,7 @@ label span.silver {
 
 .lux-box{
     
-    padding: 20px;
+    margin: 20px;
     transition:all 0.3s ease;
     background: #ffffff;
     border-top-width: 0;
@@ -128,14 +128,24 @@ label span.silver {
     bottom: 0;
     right: 0;
     left: 0;
-    z-index: 1;
+    z-index: 6666;
     overflow: scroll;
     padding: 2em;
     border: none;
+    background: #fff;
+    height: 100%;
+    border-radius: 0;
 }
-.lux-box .term_agremment{
-    font-size: 14px;
+.lux-box .price {background: #f5f5f5; padding: 20px 0;}
+.lux-box .term_agremment p{
+    font-size: 12px;
     color: #666;
+    display: inline-block;
+}
+.lux-box .term_agremment a{
+    font-size: 12px;
+    color: #666 !important;
+    text-decoration: underline
 }
 .lux-box  .collapse.show .card span.btn{
     color: #ccc;
@@ -204,7 +214,9 @@ label span.silver {
 .lux-info .info{
     display: none;
 }
-
+.tips {
+    margin-top: 23px;
+}
 
  .tips div.tip {
     font-size: 14px;

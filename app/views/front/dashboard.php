@@ -2,7 +2,7 @@
 <div id="appModalsP">
   
 
-    <div class="lux-box" v-bind:class="{ 'd-none': ! SubmitSuccess.status }">
+    <div class="lux-box" style="display:none"  v-bind:class="{ 'd-none': ! SubmitSuccess.status }">
         <div class="row">
             <div class="col-md-9">
                 <div class="alert alert-warning">
@@ -22,13 +22,13 @@
                                         <div class="col-md-12 lux-info" data-info="description">
                                             <div class="form-group">
                                                 <input type="text" class="form-control rounded-0 " v-bind:class="{ 'is-invalid': attemptSubmit && selected_n=='' }" name="pname" placeholder="Product Name" v-model="selected_n" />
-                                                <div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && selected_n=='' }">Make sure to write product name.</div>
+                                                <!--<div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && selected_n=='' }">Make sure to write product name.</div>-->
                                             </div>
                                         </div>
                                         <div class="col-md-12 lux-info" data-info="description">
                                              <div class="form-group">
                                                 <textarea class="form-control rounded-0 " name="pdescription" placeholder="Product Description" v-bind:class="{ 'is-invalid': attemptSubmit && selected_d=='' }" v-model="selected_d"></textarea>
-                                                <div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && selected_d=='' }">Make sure to provide description.</div>
+                                                <!--<div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && selected_d=='' }">Make sure to provide description.</div>-->
                                               </div>
                                         </div>
                                     </div>
@@ -38,13 +38,13 @@
                                             <div class="col-md-6 lux-info" data-info="category">
                                                 <div class="form-group">
                                                     <div class="form-control rounded-0 cb-input cb-ct" data-toggle="modal" data-target="#categoryModal" v-bind:class="{ 'is-invalid': attemptSubmit && (selected_c=='' || selected_g =='' || selected_b=='' ) }">Gender{{selected_g.text}} | Category{{selected_c.text}} | Brand{{selected_b.text}}</div>
-                                                    <div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && (selected_c=='' || selected_g =='' || selected_b=='' )}">Make sure to select product gender, brand and category.</div>
+                                                    <div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && (selected_c=='' || selected_g =='' || selected_b=='' )}"><i class="fa fa-info-circle"></i> Make sure to select product gender, brand and category.</div>
                                                 </div>
                                             </div>
                                             <div class="col-md-6 lux-info" data-info="materials">
                                                 <div class="form-group">
                                                     <div class="form-control rounded-0 cb-input cb-mt" v-bind:class="[slCat ==0 ? 'disabled' : '',  attemptSubmit && (selected_m=='' || selected_cl =='' || selected_co=='' ) ? 'is-invalid' :'']" data-toggle="modal" :data-target="slCat==0? '' : '#materialModal'" >Material{{selected_m.text}} | Color{{selected_cl.text}} | Condition{{selected_co.text}}</div>
-                                                    <div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && (selected_m=='' || selected_cl =='' || selected_co=='' )}">Make sure to select product material, color and condition.</div>
+                                                    <div class="invalid-feedback" v-bind:class="{ 'd-block': attemptSubmit && (selected_m=='' || selected_cl =='' || selected_co=='' )}"><i class="fa fa-info-circle"></i> Make sure to select product material, color and condition.</div>
                                                 </div>
                                             </div>
                                         </div>
@@ -90,18 +90,18 @@
         <div class="lux-box">
             <div class="row">
                 <div class="col-md-9">
-                   <div class="row">
-                       <div class="col-md-8">
-                       <div class="label-title">Item Dimension 
-                            <span class="d-md-none d-sm-block"  data-toggle="collapse" href="#tipsDimention" role="button" aria-expanded="false" aria-controls="tipsDimention">
-                                <i class="fa fa-info-circle"></i>
-                            </span>
-                        </div>
+                  
+                       
+                            <div class="label-title">Item Dimension 
+                                <span class="d-md-none d-sm-block"  data-toggle="collapse" href="#tipsDimention" role="button" aria-expanded="false" aria-controls="tipsDimention">
+                                    <i class="fa fa-info-circle"></i>
+                                </span>
+                            </div>
                             <div class="row no-gutters dimension">
                                 <div class="col-md-4">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                             <div class="input-group-text">KG</div>
+                                            <div class="input-group-text">KG</div>
                                         </div>
                                         <input type="text" class="form-control"  placeholder="Weight" name="we" v-model="selected_w" v-bind:class="{ 'is-invalid': attemptSubmit && selected_w=='' }">
                                     </div>
@@ -109,7 +109,7 @@
                                 <div class="col-md-4">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                             <div class="input-group-text">CM</div>
+                                            <div class="input-group-text">CM</div>
                                         </div>
                                         <input type="text" class="form-control lux-info" data-info="width"  name="wi" placeholder="Width" v-model="selected_wi"  v-bind:class="{ 'is-invalid': attemptSubmit && selected_wi=='' }">
                                     </div>
@@ -117,26 +117,14 @@
                                 <div class="col-md-4">
                                     <div class="input-group mb-2">
                                         <div class="input-group-prepend">
-                                             <div class="input-group-text">CM</div>
+                                            <div class="input-group-text">CM</div>
                                         </div>
                                         <input type="text" class="form-control mr-0 lux-info" data-info="height"  name="he" placeholder="Height" v-model="selected_h"  v-bind:class="{ 'is-invalid': attemptSubmit && selected_h=='' }">
                                     </div>
                                 </div>
                             </div>
-                       </div>
-                       <div class="col-md-4">
-                         <div class="label-title">Item Price</div>
-                            <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                        <?php echo $currency_symbol;?>
-                                        <?php echo $currency;?>
-                                        </div>
-                                </div>
-                                <input type="text" class="form-control lux-info" data-info="price"  name="pr"  placeholder="Price" v-model="selected_p"  v-bind:class="{ 'is-invalid': attemptSubmit && selected_p=='' }">
-                            </div>
-                       </div>
-                   </div>
+                       
+                  
                    <hr>
                 </div>
                 <div class="col-md-3">
@@ -151,11 +139,35 @@
                 </div>
             </div>
         </div>
+        <div class="lux-box " >
+                       <div class="row">
+                            <div class="col-md-9">
+                                        <div class="row price">
+                                            <div class="col-md-6">
+                                                 <div class="label-title">Item Price</div>
+                                                <div class="input-group mb-2">
+                                                    <div class="input-group-prepend">
+                                                            <div class="input-group-text">
+                                                                <?php echo $currency_symbol;?>
+                                                                <?php echo $currency;?>
+                                                            </div>
+                                                    </div>
+                                                    <input type="text" class="form-control lux-info" data-info="price"  name="pr"  placeholder="Price" v-model="selected_p"  v-bind:class="{ 'is-invalid': attemptSubmit && selected_p=='' }">
+                                                </div>
+                                            </div>   
+                                            <div class="col-md-6">
+                                               
+                                            </div>    
+                                        </div>
+                            </div>
+                       </div>
+                       <hr>
+         </div>   
         <div class="lux-box" v-if="hasError!=''">
             <div class="row">
                  <div class="col-md-9">
                                 <p class="has-error invalid-feedback"  v-if="hasError!=''" class="float-right m-2">{{hasError}} </p>
-                                 <p class="has-error invalid-feedback"  v-if="hasError!='' && !selected_t">*In order to use our service please accept term & condition</p>
+                                 
                  </div>
             </div>
         </div>     
@@ -165,8 +177,13 @@
                         <div class="row">
                             <div class="col-md-9">
                             <label for="term_agremment" class="term_agremment" >
-                                <input id="term_agremment" type="checkbox" name="term" v-model="selected_t" > I have read and agree with the <a href="https://www.luxurypromise.com/terms-of-service/" target="new">Terms of Service</a>, the <a href="https://www.luxurypromise.com/privacy-policy/" target="new">Privacy Policy</a> and the <a href="https://www.luxurypromise.com/luxury-promise-commission-structure/" target="new">Commission Structure</a>.<span></span>
+                                <input id="term_agremment" type="checkbox" name="term" v-model="selected_t" >
+                                <p>
+                                     I agree with the <a href="https://www.luxurypromise.com/terms-of-service/" target="new">Terms of Service</a>, the <a href="https://www.luxurypromise.com/privacy-policy/" target="new">Privacy Policy</a> and the <a href="https://www.luxurypromise.com/luxury-promise-commission-structure/" target="new">Commission Structure</a>
+                                </p>
+                                <span class="has-error invalid-feedback"  v-if="hasError!='' && !selected_t"><i class="fa fa-info-circle"></i> This field is required</span>
                             </label>    
+                            
                                  
                             </div>   
                             <div class="col-md-3">

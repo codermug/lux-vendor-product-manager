@@ -28,7 +28,7 @@ define ('PLUGIN_NAME','lux-vendor-manager');
 define ('PLUGIN_SHORTCODE_PAGE','assign-product');
 
 // enable this option when you work in localhost
-//define ('PLUGIN_SHORTCODE_PAGE','/lux/salam-dawod/'); 
+define ('PLUGIN_SHORTCODE_PAGE','/lux/assign-product/'); 
 
 use App\Inc\Activate;
 use App\Inc\Deactivate;
