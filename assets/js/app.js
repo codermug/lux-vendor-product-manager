@@ -254,7 +254,7 @@ jQuery(document).ready(function () {
                     $form.find('input[name=mt]').val(this.selected_m.id);
                     $form.find('input[name=color]').val(this.selected_cl.id);
                     $form.find('input[name=cnd]').val(this.selected_co.id);
-                    //$form.find('button[type=submit]').html("Sending Please wait ...").attr('disabled',true);
+                    $form.find('button[type=submit]').html("Sending Please wait ...").attr('disabled',true);
 
                     jQuery.ajax({
                         url : url,
@@ -279,7 +279,7 @@ jQuery(document).ready(function () {
                                 vueObj.hasError = response.msg;
                             }
 
-                            //$form.find('button[type=submit]').html("Send").attr('disabled',false);
+                            $form.find('button[type=submit]').html("Send").attr('disabled',false);
             
                         },
                         complete: function () {

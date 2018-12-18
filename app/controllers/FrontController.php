@@ -51,12 +51,14 @@ class FrontController
         // Double check user capabilities
         $user = wp_get_current_user();
       
-        if ( in_array( 'dc_vendor', (array) $user->roles ) ) {
-            _includes('front/dashboard.php');
-        }else {
+        //if ( in_array( 'dc_vendor', (array) $user->roles ) ) {
+            $currency_symbol = get_woocommerce_currency_symbol();
+            $currency = get_woocommerce_currency();
+            _includes('front/dashboard.php',['currency_symbol'=>$currency_symbol,'currency'=>$currency]);
+        //}else {
 
             echo "<br>Please contact administration in order to become a vendor";
-        }
+        //}
 
       
     }
@@ -85,7 +87,7 @@ class FrontController
             
              parse_str($_POST['dt'],$data);
 
-             print_r($data);
+           
 
              if($msg = $this->_nonce_validate($data)) {
                 $this->_return_json(['msg'=>$msg],'error');

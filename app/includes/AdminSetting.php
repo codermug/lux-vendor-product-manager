@@ -13,7 +13,7 @@ use App\Controllers\AdminController;
 
 class AdminSetting
 {
-    private $shortcode_name = 'pollka';
+    private $shortcode_name = 'luxVendor';
 
     public function register() {
 

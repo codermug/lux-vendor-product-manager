@@ -45,7 +45,7 @@ class Start {
     }
 
     function activate() {
-        Activate::activate();
+        
     }
     function deactivate() {
 

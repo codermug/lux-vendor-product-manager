@@ -24,17 +24,22 @@ if(file_exists(dirname(__FILE__).'/vendor/autoload.php')) {
 
 define ('PLUGIN_PATH', plugin_dir_path(__FILE__));
 define ('PLUGIN_NAME','lux-vendor-manager');
-define ('PLUGIN_SHORTCODE_PAGE','/lux/salam-dawod/');
+
+define ('PLUGIN_SHORTCODE_PAGE','assign-product');
+
+// enable this option when you work in localhost
+//define ('PLUGIN_SHORTCODE_PAGE','/lux/salam-dawod/'); 
 
 use App\Inc\Activate;
 use App\Inc\Deactivate;
 Use App\Inc\DataService;
 Use App\Controllers\AdminController;
+use App\Start;
 
 
 //if( ! class_exists( 'App\Start' ) ) {
 
-    $lux_vendor = new \App\Start();
+    $lux_vendor = new App\Start();
     $lux_vendor->register();
 
     register_activation_hook(__FILE__,[$lux_vendor,'activate']);
